@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/airlinesListFragment">
+
+    <fragment
+        android:id="@+id/airlinesListFragment"
+        android:name="com.ahmed.airlinesdetails.main.AirlinesListFragment"
+        tools:layout="@layout/fragment_airlines_list">
+    </fragment>
+
+</navigation>

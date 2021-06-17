@@ -5,19 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".main.MainActivity">
 
     <include
+        layout="@layout/main_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_size"
-        layout="@layout/main_toolbar" />
+        android:layout_height="@dimen/toolbar_size" />
 
-    <TextView
+    <fragment
+        android:id="@+id/navHostFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:text="gdagadgdagdagadgad"
-        android:gravity="center" />
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
 
 </LinearLayout>

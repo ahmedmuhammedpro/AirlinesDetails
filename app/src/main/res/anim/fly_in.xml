@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true"
+    android:interpolator="@android:anim/linear_interpolator">
+<!--    <scale android:interpolator="@android:anim/decelerate_interpolator"-->
+<!--        android:fromXScale="1.0" android:toXScale="0.0"-->
+<!--        android:fromYScale="1.0" android:toYScale="0.0"-->
+<!--        android:pivotX="50%" android:pivotY="50%"-->
+<!--        android:fillAfter="false" android:duration="250"/>-->
+<!--    <translate android:fromXDelta="-100%" android:toXDelta="0%"-->
+<!--        android:fromYDelta="0%" android:toYDelta="0%"-->
+<!--        android:duration="700"/>-->
+
+
+
+    <!-- Use startOffset to give delay between animations -->
+
+
+
+
+
+    <!-- Move -->
+
+    <translate
+        android:duration="3000"
+        android:fillAfter="true"
+        android:startOffset="500"
+        android:toXDelta="100%p" />
+
+<!--    <translate-->
+<!--        android:duration="100"-->
+<!--        android:fillAfter="false"-->
+<!--        android:startOffset="1500"-->
+<!--        android:toYDelta="30%p" />-->
+
+<!--    <translate-->
+<!--        android:duration="100"-->
+<!--        android:fillAfter="true"-->
+<!--        android:startOffset="2800"-->
+<!--        android:toXDelta="-130%p" />-->
+</set>
