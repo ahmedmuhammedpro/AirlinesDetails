@@ -1,6 +1,6 @@
 package com.ahmed.airlinesdetails.model.entities
 
-open class BaseResponse(val statusCode: Int? =null, val message: String = "") {
+open class BaseResponse(var statusCode: Int? =null, var message: String = "") {
 
     fun getResponseState(): ResponseState {
         return when (statusCode) {
@@ -13,7 +13,7 @@ open class BaseResponse(val statusCode: Int? =null, val message: String = "") {
     }
 }
 
-enum class ResponseState() {
+enum class ResponseState {
     SUCCESS,
     REDIRECT,
     CLIENT_ERROR,

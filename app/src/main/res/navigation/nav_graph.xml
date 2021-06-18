@@ -7,8 +7,24 @@
 
     <fragment
         android:id="@+id/airlinesListFragment"
-        android:name="com.ahmed.airlinesdetails.main.AirlinesListFragment"
+        android:name="com.ahmed.airlinesdetails.main.airlines_list.AirlinesListFragment"
         tools:layout="@layout/fragment_airlines_list">
+        <action
+            android:id="@+id/action_airlinesListFragment_to_errorFragment"
+            app:destination="@id/errorFragment" />
+        <action
+            android:id="@+id/action_airlinesListFragment_to_addAirlineFragment"
+            app:destination="@id/addAirlineFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/errorFragment"
+        android:name="com.ahmed.airlinesdetails.main.error_screen.ErrorFragment"
+        tools:layout="@layout/fragment_error" />
+
+    <dialog
+        android:id="@+id/addAirlineFragment"
+        tools:layout="@layout/fragment_add_airline"
+        android:name="com.ahmed.airlinesdetails.main.add_airline.AddAirlineFragment" />
 
 </navigation>

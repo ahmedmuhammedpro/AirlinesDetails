@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/add_airline_container"
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/vodafone_rg"
+            android:paddingStart="1dp"
+            android:paddingEnd="16dp"
+            android:text="@string/add_new_air_line"
+            android:textColor="#333333"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:autofillHints=""
+            android:background="@drawable/search_edittext_background"
+            android:hint="@string/air_line_name_hint"
+            android:inputType="text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/slogan_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="15dp"
+            android:autofillHints=""
+            android:background="@drawable/search_edittext_background"
+            android:hint="@string/slogan_hint"
+            android:inputType="text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/country_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="15dp"
+            android:autofillHints=""
+            android:background="@drawable/search_edittext_background"
+            android:hint="@string/country_hint"
+            android:inputType="text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/headquarter_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="15dp"
+            android:autofillHints=""
+            android:background="@drawable/search_edittext_background"
+            android:hint="@string/headquarters_hint"
+            android:inputType="text"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/established_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="15dp"
+            android:autofillHints=""
+            android:background="@drawable/search_edittext_background"
+            android:hint="@string/established_year_hint"
+            android:inputType="number"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="18sp" />
+
+        <android.widget.Button
+            android:id="@+id/confirm_button"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/search_button_background"
+            android:fontFamily="@font/vodafone_rg"
+            android:text="@string/confirm"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <android.widget.Button
+            android:id="@+id/cancel_button"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/search_button_background_white"
+            android:fontFamily="@font/vodafone_rg"
+            android:text="@string/cancel_button"
+            android:textAllCaps="false"
+            android:textColor="#333333"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+</layout>

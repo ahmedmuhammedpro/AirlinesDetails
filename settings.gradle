@@ -1,2 +1,3 @@
+include ':viewmodel-factory'
 include ':app'
 rootProject.name = "AirlinesDetails"

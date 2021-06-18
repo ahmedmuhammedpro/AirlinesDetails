@@ -1,4 +1,4 @@
-package com.ahmed.airlinesdetails.main
+package com.ahmed.airlinesdetails.main.airlines_list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ahmed.airlinesdetails.R
 import com.ahmed.airlinesdetails.model.entities.Airline
 
-class AirlinesAdapter(private var items: List<Airline>) : RecyclerView.Adapter<AirlinesAdapter.AirlineViewHolder>() {
+class AirlinesAdapter(val items: ArrayList<Airline>) : RecyclerView.Adapter<AirlinesAdapter.AirlineViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AirlineViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.airline_view_item, parent, false)
