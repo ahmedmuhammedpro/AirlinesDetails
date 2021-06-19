@@ -1,6 +1,8 @@
 ### AirlinesDetails
 ### Is android app that use https://www.instantwebtools.net/fake-rest-api#read-airlines api to show fake airlines with ability to add an airline.
 
+[![Generic badge](https://img.shields.io/badge/<minSDK>-<17>-<COLOR>.svg)](https://shields.io/)
+
 #### preview:
 
 * ##### Video
@@ -25,9 +27,6 @@ https://user-images.githubusercontent.com/59180483/122633899-480a9380-d0db-11eb-
 ![12](https://user-images.githubusercontent.com/59180483/122634439-92d9da80-d0de-11eb-9efa-a3615dcb4281.png)
 ![13](https://user-images.githubusercontent.com/59180483/122634440-93727100-d0de-11eb-88d7-c9a71607c1f9.png)
 
-
-
-### minSDK -> 17
 
 ### Code Features:
 
