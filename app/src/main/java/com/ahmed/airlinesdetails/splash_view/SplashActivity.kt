@@ -1,4 +1,4 @@
-package com.ahmed.airlinesdetails.splash
+package com.ahmed.airlinesdetails.splash_view
 
 import android.content.Intent
 import android.os.Bundle
@@ -31,7 +31,7 @@ class SplashActivity : AppCompatActivity() {
             }
 
             override fun onAnimationRepeat(animation: Animation?) {
-                val x = 1
+
             }
 
         })
