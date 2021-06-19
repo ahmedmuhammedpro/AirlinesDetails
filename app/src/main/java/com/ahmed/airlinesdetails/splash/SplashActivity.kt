@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import com.ahmed.airlinesdetails.main.MainActivity
+import com.ahmed.airlinesdetails.main_view.MainActivity
 import com.ahmed.airlinesdetails.R
 
 class SplashActivity : AppCompatActivity() {

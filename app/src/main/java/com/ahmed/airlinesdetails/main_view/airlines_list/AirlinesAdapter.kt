@@ -1,19 +1,24 @@
-package com.ahmed.airlinesdetails.main.airlines_list
+package com.ahmed.airlinesdetails.main_view.airlines_list
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmed.airlinesdetails.R
 import com.ahmed.airlinesdetails.model.entities.Airline
 
-class AirlinesAdapter(val items: ArrayList<Airline>) : RecyclerView.Adapter<AirlinesAdapter.AirlineViewHolder>() {
+class AirlinesAdapter(val items: ArrayList<Airline>, private val onItemClick: OnItemClick)
+    : RecyclerView.Adapter<AirlinesAdapter.AirlineViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AirlineViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.airline_view_item, parent, false)
-        return AirlineViewHolder(view)
+        val viewHolder = AirlineViewHolder(view)
+        view.setOnClickListener {
+            onItemClick.onItemClick(it, items[viewHolder.adapterPosition])
+        }
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: AirlineViewHolder, position: Int) {
@@ -26,7 +31,7 @@ class AirlinesAdapter(val items: ArrayList<Airline>) : RecyclerView.Adapter<Airl
 
     class AirlineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val airlineTextView: TextView = view.findViewById(R.id.airline_text_view)
-        val airlineDetailsButton: ImageButton = view.findViewById(R.id.airline_details_button)
+        val airlineDetailsButton: ImageView = view.findViewById(R.id.airline_details_image)
     }
 
 }

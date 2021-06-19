@@ -1,4 +1,4 @@
-package com.ahmed.airlinesdetails.main.airlines_list
+package com.ahmed.airlinesdetails.main_view.airlines_list
 
 import android.content.Context
 import android.os.Bundle
@@ -7,38 +7,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ahmed.airlinesdetails.R
 import com.ahmed.airlinesdetails.databinding.FragmentAirlinesListBinding
-import com.ahmed.airlinesdetails.main.FragmentDestination
-import com.ahmed.airlinesdetails.main.MainViewModel
+import com.ahmed.airlinesdetails.main_view.FragmentDestination
+import com.ahmed.airlinesdetails.main_view.MainViewModel
+import com.ahmed.airlinesdetails.main_view.details.AirlineDetailsFragment
+import com.ahmed.airlinesdetails.model.entities.Airline
 import com.ahmed.airlinesdetails.model.entities.ResponseState
 import com.ahmed.airlinesdetails.model.repository.api.FailingTypes
 import com.ahmed.airlinesdetails.utils.toIntOrFalse
 
-class AirlinesListFragment : Fragment() {
+class AirlinesListFragment : Fragment(), OnItemClick {
 
     private lateinit var airlinesViewModel: AirlineListViewModel
     private lateinit var databinding: FragmentAirlinesListBinding
     private lateinit var airlinesAdapter: AirlinesAdapter
     private lateinit var mainViewModel: MainViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
 
-        // Inflate the layout for this fragment
-        databinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_airlines_list, container, false)
-        airlinesViewModel =
-            ViewModelProvider(requireActivity()).get(AirlineListViewModel::class.java)
+        databinding = DataBindingUtil.inflate(inflater, R.layout.fragment_airlines_list, container, false)
+        airlinesViewModel = ViewModelProvider(requireActivity()).get(AirlineListViewModel::class.java)
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         databinding.viewModel = airlinesViewModel
         databinding.lifecycleOwner = this
-        airlinesAdapter = AirlinesAdapter(arrayListOf())
+        airlinesAdapter = AirlinesAdapter(arrayListOf(), this)
         databinding.airlinesRecyclerView.adapter = airlinesAdapter
 
         airlinesViewModel.getAirlines()
@@ -171,10 +169,21 @@ class AirlinesListFragment : Fragment() {
         inputManager?.hideSoftInputFromWindow(view?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 
+    override fun onItemClick(view: View, airline: Airline) {
+        val bundle = Bundle()
+        bundle.putParcelable(AirlineDetailsFragment.AIRLINE_EXTRA, airline)
+        mainViewModel.setNewDestination(FragmentDestination(R.id.airlineDetailsFragment, bundle))
+    }
+
     companion object {
 
         @JvmStatic
         fun newInstance() =
             AirlinesListFragment()
     }
+
+}
+
+interface OnItemClick {
+    fun onItemClick(view: View, airline: Airline)
 }

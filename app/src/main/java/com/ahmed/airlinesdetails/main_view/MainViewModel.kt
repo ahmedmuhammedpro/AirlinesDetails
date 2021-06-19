@@ -1,9 +1,8 @@
-package com.ahmed.airlinesdetails.main
+package com.ahmed.airlinesdetails.main_view
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ahmed.airlinesdetails.model.entities.BaseResponse
 
 
 class MainViewModel : ViewModel() {

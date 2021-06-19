@@ -2,7 +2,6 @@ package com.ahmed.airlinesdetails
 
 import android.app.Application
 import timber.log.Timber
-import java.math.BigDecimal
 
 class App : Application() {
 

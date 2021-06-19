@@ -1,15 +1,12 @@
 <resources>
     <string name="app_name">AirlinesDetails</string>
     <string name="countries_title">Countries</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_edit_text_hint">Search by airline name</string>
     <string name="content_desc_add_airline">add airline</string>
     <string name="content_desc_search">search</string>
     <string name="content_desc_view_details">view details</string>
     <string name="content_desc_error_image">error image</string>
-
-    <!-- Error Messages -->
     <string name="general_error">Sorry!! something went wrong</string>
     <string name="no_connection_error">Please make sure you have a connection!</string>
     <string name="slow_connection_error">OOPS!! you have a slow connection</string>
@@ -24,4 +21,6 @@
     <string name="established_year_hint">Established year</string>
     <string name="confirm">Confirm</string>
     <string name="cancel_button">Cancel</string>
+    <string name="headquarters_title">Headquarters</string>
+    <string name="visit_button">Visit</string>
 </resources>

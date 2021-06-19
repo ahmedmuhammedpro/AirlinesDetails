@@ -1,4 +1,4 @@
-package com.ahmed.airlinesdetails.main
+package com.ahmed.airlinesdetails.main_view
 
 import android.os.Bundle
 import androidx.annotation.IdRes

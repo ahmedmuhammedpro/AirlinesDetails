@@ -1,4 +1,4 @@
-package com.ahmed.airlinesdetails.main.airlines_list
+package com.ahmed.airlinesdetails.main_view.airlines_list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

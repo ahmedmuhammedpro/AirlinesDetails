@@ -1,4 +1,4 @@
-package com.ahmed.airlinesdetails.main.error_screen
+package com.ahmed.airlinesdetails.main_view.error_screen
 
 import android.os.Bundle
 import android.view.LayoutInflater

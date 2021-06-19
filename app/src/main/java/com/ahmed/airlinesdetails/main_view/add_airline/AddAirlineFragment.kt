@@ -1,4 +1,4 @@
-package com.ahmed.airlinesdetails.main.add_airline
+package com.ahmed.airlinesdetails.main_view.add_airline
 
 import android.app.Dialog
 import android.os.Bundle
@@ -34,19 +34,14 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
         return bottomSheetDialog
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
 
-        dataBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_add_airline, container, false)
-        addAirlineViewModel =
-            ViewModelProvider(requireActivity()).get(AddAirlineViewModel::class.java)
-
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_airline, container, false)
+        addAirlineViewModel = ViewModelProvider(requireActivity()).get(AddAirlineViewModel::class.java)
         listenForAddAirline()
 
-        dataBinding.confirmButton.setOnClickListener {
+        dataBinding.confirmViewContainer.setOnClickListener {
             val airline = createAirline()
             airline?.let {
                 addAirlineViewModel.addAirline(it)
@@ -65,10 +60,21 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
             when (it.getResponseState()) {
                 ResponseState.SUCCESS -> {
                     showSnackBar("Airline is successfully added")
+                    dataBinding.nameEditText.setText("")
+                    dataBinding.sloganEditText.setText("")
+                    dataBinding.countryEditText.setText("")
+                    dataBinding.headquarterEditText.setText("")
+                    dataBinding.establishedEditText.setText("")
                 }
                 ResponseState.CLIENT_ERROR, ResponseState.UNKNOWN_ERROR,
                 ResponseState.SERVER_ERROR, ResponseState.REDIRECT -> showSnackBar(getString(R.string.general_error))
             }
+        }
+
+        addAirlineViewModel.loadingLiveData.observe(viewLifecycleOwner) {
+            dataBinding.confirmViewContainer.isEnabled = !it
+            dataBinding.loadingView.visibility = if (it) View.VISIBLE else View.GONE
+            dataBinding.confirmButton.visibility = if (it) View.GONE else View.VISIBLE
         }
 
         addAirlineViewModel.failingLiveData.observe(viewLifecycleOwner) {
@@ -108,6 +114,6 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
     }
 
     private fun showSnackBar(message: String) {
-        Snackbar.make(requireActivity(), requireView(), message, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(dataBinding.root, message, Snackbar.LENGTH_LONG).show()
     }
 }

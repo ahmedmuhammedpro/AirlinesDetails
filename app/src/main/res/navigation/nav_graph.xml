@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/airlinesListFragment"
-        android:name="com.ahmed.airlinesdetails.main.airlines_list.AirlinesListFragment"
+        android:name="com.ahmed.airlinesdetails.main_view.airlines_list.AirlinesListFragment"
         tools:layout="@layout/fragment_airlines_list">
         <action
             android:id="@+id/action_airlinesListFragment_to_errorFragment"
@@ -15,16 +15,32 @@
         <action
             android:id="@+id/action_airlinesListFragment_to_addAirlineFragment"
             app:destination="@id/addAirlineFragment" />
+        <action
+            android:id="@+id/action_airlinesListFragment_to_airlineDetailsFragment"
+            app:destination="@id/airlineDetailsFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/errorFragment"
-        android:name="com.ahmed.airlinesdetails.main.error_screen.ErrorFragment"
+        android:name="com.ahmed.airlinesdetails.main_view.error_screen.ErrorFragment"
         tools:layout="@layout/fragment_error" />
 
     <dialog
         android:id="@+id/addAirlineFragment"
         tools:layout="@layout/fragment_add_airline"
-        android:name="com.ahmed.airlinesdetails.main.add_airline.AddAirlineFragment" />
+        android:name="com.ahmed.airlinesdetails.main_view.add_airline.AddAirlineFragment" >
+        <action
+            android:id="@+id/action_addAirlineFragment_to_airlinesListFragment"
+            app:destination="@id/airlinesListFragment" />
+    </dialog>
+
+    <fragment
+        android:id="@+id/airlineDetailsFragment"
+        android:name="com.ahmed.airlinesdetails.main_view.details.AirlineDetailsFragment"
+        tools:layout="@layout/fragment_airline_details" >
+        <action
+            android:id="@+id/action_airlineDetailsFragment_to_airlinesListFragment"
+            app:destination="@id/airlinesListFragment" />
+    </fragment>
 
 </navigation>
