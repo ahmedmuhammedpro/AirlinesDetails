@@ -3,7 +3,6 @@ package com.ahmed.airlinesdetails.model.entities
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlin.math.log
 
 data class AirlinesListResponse(@SerializedName("items") val items: List<Airline>) : BaseResponse()
 

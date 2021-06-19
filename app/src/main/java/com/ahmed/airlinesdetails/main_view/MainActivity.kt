@@ -1,16 +1,13 @@
 package com.ahmed.airlinesdetails.main_view
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.navigateUp
 import com.ahmed.airlinesdetails.R
 import com.ahmed.airlinesdetails.databinding.ActivityMainBinding
 
@@ -32,10 +29,6 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.navDestination.observe(this) {
             navController.navigate(it.destinationId, it.bundle)
         }
-    }
-
-    override fun onNavigateUp(): Boolean {
-        return navController.navigateUp()
     }
 
 }

@@ -1,13 +1,13 @@
 package com.ahmed.airlinesdetails.splash
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import com.ahmed.airlinesdetails.main_view.MainActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.ahmed.airlinesdetails.R
+import com.ahmed.airlinesdetails.main_view.MainActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
