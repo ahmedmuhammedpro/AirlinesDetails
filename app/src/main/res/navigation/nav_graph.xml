@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/airlinesListFragment"
-        android:name="com.ahmed.airlinesdetails.main_view.airlines_list.AirlinesListFragment"
-        tools:layout="@layout/fragment_airlines_list">
+        android:name="com.ahmed.airlinesdetails.main_view.airlines_listing.AirlinesListFragment"
+        tools:layout="@layout/fragment_airlines_listing">
         <action
             android:id="@+id/action_airlinesListFragment_to_addAirlineFragment"
             app:destination="@id/addAirlineFragment" />

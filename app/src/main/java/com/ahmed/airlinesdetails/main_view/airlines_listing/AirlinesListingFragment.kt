@@ -1,4 +1,4 @@
-package com.ahmed.airlinesdetails.main_view.airlines_list
+package com.ahmed.airlinesdetails.main_view.airlines_listing
 
 import android.content.Context
 import android.os.Bundle
@@ -10,33 +10,57 @@ import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ahmed.airlinesdetails.R
-import com.ahmed.airlinesdetails.databinding.FragmentAirlinesListBinding
+import com.ahmed.airlinesdetails.databinding.FragmentAirlinesListingBinding
 import com.ahmed.airlinesdetails.main_view.FragmentDestination
 import com.ahmed.airlinesdetails.main_view.MainViewModel
 import com.ahmed.airlinesdetails.main_view.details.AirlineDetailsFragment
 import com.ahmed.airlinesdetails.model.entities.Airline
 import com.ahmed.airlinesdetails.model.entities.ResponseState
 import com.ahmed.airlinesdetails.model.repository.api.FailingTypes
+import com.ahmed.airlinesdetails.utils.copyRange
 import com.ahmed.airlinesdetails.utils.toIntOrFalse
 
 class AirlinesListFragment : Fragment(), OnItemClick {
 
-    private lateinit var airlinesViewModel: AirlineListViewModel
-    private lateinit var databinding: FragmentAirlinesListBinding
+    private lateinit var airlinesViewModel: AirlineListingViewModel
+    private lateinit var databinding: FragmentAirlinesListingBinding
     private lateinit var airlinesAdapter: AirlinesAdapter
     private lateinit var mainViewModel: MainViewModel
+    private var mAirlines = ArrayList<Airline>()
+
+    // Custom Paging
+    private val recyclerViewScrollListener = object : RecyclerView.OnScrollListener() {
+
+        private var currentAppendedItems = 20
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            if (currentAppendedItems - 1 <= layoutManager.findLastVisibleItemPosition()) {
+                val nextTwenty = mAirlines.copyRange(currentAppendedItems, currentAppendedItems + 20)
+                currentAppendedItems += 20
+                airlinesAdapter.items.addAll(nextTwenty)
+                airlinesAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
-        databinding = DataBindingUtil.inflate(inflater, R.layout.fragment_airlines_list, container, false)
-        airlinesViewModel = ViewModelProvider(requireActivity()).get(AirlineListViewModel::class.java)
+        databinding = DataBindingUtil.inflate(inflater, R.layout.fragment_airlines_listing, container, false)
+        airlinesViewModel = ViewModelProvider(requireActivity()).get(AirlineListingViewModel::class.java)
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         databinding.viewModel = airlinesViewModel
         databinding.lifecycleOwner = this
         airlinesAdapter = AirlinesAdapter(arrayListOf(), this)
         databinding.airlinesRecyclerView.adapter = airlinesAdapter
+        databinding.airlinesRecyclerView.addOnScrollListener(recyclerViewScrollListener)
 
         airlinesViewModel.getAirlines()
         listenForAirlinesResponse()
@@ -52,8 +76,10 @@ class AirlinesListFragment : Fragment(), OnItemClick {
                 ResponseState.SUCCESS -> {
                     if (!it.items.isNullOrEmpty()) {
                         databinding.mainContainer.visibility = View.VISIBLE
+                        mAirlines = it.items
+                        val firstTwenty = mAirlines.copyRange(exclusiveEnd = 20)
                         airlinesAdapter.items.clear()
-                        airlinesAdapter.items.addAll(it.items)
+                        airlinesAdapter.items.addAll(firstTwenty)
                         airlinesAdapter.notifyDataSetChanged()
                     } else {
                         databinding.mainContainer.visibility = View.GONE
@@ -82,6 +108,11 @@ class AirlinesListFragment : Fragment(), OnItemClick {
                     FailingTypes.TIMEOUT_FAILING -> showFailingErrorView(
                         true,
                         getString(R.string.slow_connection_error)
+                    )
+
+                    FailingTypes.NETWORK_ERROR -> showFailingErrorView(
+                        true,
+                        getString(R.string.network_error)
                     )
 
                     FailingTypes.JSON_PARSE_FAILING -> showFailingErrorView(

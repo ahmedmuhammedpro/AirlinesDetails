@@ -8,8 +8,8 @@
     <string name="content_desc_view_details">view details</string>
     <string name="content_desc_error_image">error image</string>
     <string name="general_error">Sorry!! something went wrong</string>
-    <string name="no_connection_error">Please make sure you have a connection!</string>
     <string name="slow_connection_error">OOPS!! you have a slow connection</string>
+    <string name="network_error">OOPS!! network failing</string>
     <string name="try_again">try again</string>
     <string name="can_t_find_what_you_search">Can\'t find what you search</string>
     <string name="go_back">go back</string>

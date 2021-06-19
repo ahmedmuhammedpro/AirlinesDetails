@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
-data class AirlinesListResponse(@SerializedName("items") val items: List<Airline>) : BaseResponse()
+data class AirlinesListResponse(@SerializedName("items") val items: ArrayList<Airline>) : BaseResponse()
 
 data class AirlineResponse(@SerializedName("value") val airline: Airline) : BaseResponse()
 

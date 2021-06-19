@@ -1,4 +1,4 @@
-package com.ahmed.airlinesdetails.main_view.airlines_list
+package com.ahmed.airlinesdetails.main_view.airlines_listing
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,9 +15,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.io.IOException
 import java.net.SocketTimeoutException
 
-class AirlineListViewModel : ViewModel() {
+class AirlineListingViewModel : ViewModel() {
 
     private val airlinesRepo: AirlinesRepo by lazy {
         AirlinesRepoImpl()
@@ -52,6 +53,7 @@ class AirlineListViewModel : ViewModel() {
                     when (it) {
                         is SocketTimeoutException -> mFailingLiveData.value = FailingTypes.TIMEOUT_FAILING
                         is JsonParseException -> mFailingLiveData.value = FailingTypes.JSON_PARSE_FAILING
+                        is IOException -> mFailingLiveData.value = FailingTypes.NETWORK_ERROR
                         else -> mFailingLiveData.value = FailingTypes.UNKNOWN_FAILING
                     }
                 }

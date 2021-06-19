@@ -1,4 +1,4 @@
-package com.ahmed.airlinesdetails.main_view.airlines_list
+package com.ahmed.airlinesdetails.main_view.airlines_listing
 
 import android.view.LayoutInflater
 import android.view.View

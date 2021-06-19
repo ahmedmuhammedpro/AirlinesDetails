@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.ahmed.airlinesdetails.main_view.airlines_list.AirlineListViewModel" />
+            type="com.ahmed.airlinesdetails.main_view.airlines_listing.AirlineListingViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".main_view.airlines_list.AirlinesListFragment">
+        tools:context=".main_view.airlines_listing.AirlinesListFragment">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/main_container"
