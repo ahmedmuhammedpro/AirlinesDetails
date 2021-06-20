@@ -1,4 +1,4 @@
-package com.ahmed.airlinesdetails.main_view.airlines_listing
+package com.ahmed.airlinesdetails
 
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData

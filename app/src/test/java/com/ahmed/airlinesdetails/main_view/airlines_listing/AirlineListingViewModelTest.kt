@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.ahmed.airlinesdetails.MainCoroutineRule
+import com.ahmed.airlinesdetails.getOrAwaitValue
 import com.ahmed.airlinesdetails.model.entities.Airline
 import com.ahmed.airlinesdetails.model.entities.ResponseState
 import com.ahmed.airlinesdetails.model.repository.FakeAirlineRepo
