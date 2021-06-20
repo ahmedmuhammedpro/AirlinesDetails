@@ -19,6 +19,7 @@ import com.ahmed.airlinesdetails.main_view.MainViewModel
 import com.ahmed.airlinesdetails.main_view.details.AirlineDetailsFragment
 import com.ahmed.airlinesdetails.model.entities.Airline
 import com.ahmed.airlinesdetails.model.entities.ResponseState
+import com.ahmed.airlinesdetails.model.repository.AirlinesRepoImpl
 import com.ahmed.airlinesdetails.model.repository.api.FailingTypes
 import com.ahmed.airlinesdetails.utils.copyRange
 import com.ahmed.airlinesdetails.utils.toIntOrFalse
@@ -54,7 +55,9 @@ class AirlinesListFragment : Fragment(), OnItemClick {
                               savedInstanceState: Bundle?): View {
 
         databinding = DataBindingUtil.inflate(inflater, R.layout.fragment_airlines_listing, container, false)
-        airlinesViewModel = ViewModelProvider(requireActivity()).get(AirlineListingViewModel::class.java)
+        airlinesViewModel =
+            ViewModelProvider(requireActivity(), AirlineListingViewModelFactory(AirlinesRepoImpl.getInstance()))
+                .get(AirlineListingViewModel::class.java)
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         databinding.viewModel = airlinesViewModel
         databinding.lifecycleOwner = this

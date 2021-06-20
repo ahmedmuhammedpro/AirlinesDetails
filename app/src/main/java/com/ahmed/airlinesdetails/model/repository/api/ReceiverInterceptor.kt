@@ -4,6 +4,7 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.ResponseBody
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import org.json.JSONTokener
 
@@ -18,7 +19,8 @@ class ReceiverInterceptor : Interceptor {
         // Adding status code to all response.
         jsonResponseObject.put("statusCode", statusCode)
         jsonResponseObject.put("message", response.message())
-        val jsonResponseBody = JSONTokener(response.body()?.string()).nextValue()
+
+        val jsonResponseBody: Any? = try { JSONTokener(response.body()?.string()).nextValue() } catch (ex: JSONException) { null }
         if (jsonResponseBody is JSONObject) {
             jsonResponseObject.put("value", jsonResponseBody)
         } else if (jsonResponseBody is JSONArray) {

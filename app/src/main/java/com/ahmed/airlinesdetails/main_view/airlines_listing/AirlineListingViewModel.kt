@@ -1,13 +1,9 @@
 package com.ahmed.airlinesdetails.main_view.airlines_listing
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.ahmed.airlinesdetails.model.entities.Airline
 import com.ahmed.airlinesdetails.model.entities.AirlinesListResponse
 import com.ahmed.airlinesdetails.model.repository.AirlinesRepo
-import com.ahmed.airlinesdetails.model.repository.AirlinesRepoImpl
 import com.ahmed.airlinesdetails.model.repository.api.FailingTypes
 import com.google.gson.JsonParseException
 import kotlinx.coroutines.Dispatchers
@@ -18,11 +14,8 @@ import timber.log.Timber
 import java.io.IOException
 import java.net.SocketTimeoutException
 
-class AirlineListingViewModel : ViewModel() {
+class AirlineListingViewModel(private val airlinesRepo: AirlinesRepo) : ViewModel() {
 
-    private val airlinesRepo: AirlinesRepo by lazy {
-        AirlinesRepoImpl()
-    }
     private val jobList = ArrayList<Job>()
 
     private val mAirlinesLiveDate = MutableLiveData<AirlinesListResponse>()
@@ -71,8 +64,7 @@ class AirlineListingViewModel : ViewModel() {
 
             val exception: Exception? = try {
                 val airlines = airlinesRepo.getAirlines()
-                var airline: Airline? = null
-                airline = airlines.items.find { it.name == name }
+                val airline: Airline? = airlines.items.find { it.name == name }
                 withContext(Dispatchers.Main) {
                     if (airline != null) {
                         val airlinesResponse = AirlinesListResponse(arrayListOf(airline))
@@ -114,12 +106,19 @@ class AirlineListingViewModel : ViewModel() {
         val job = viewModelScope.launch(Dispatchers.IO) {
 
             val exception: Exception? = try {
-                val airline = airlinesRepo.getAirLineById(id)
+                val airlineResponse = airlinesRepo.getAirLineById(id)
                 withContext(Dispatchers.Main) {
-                    val airlinesResponse = AirlinesListResponse(arrayListOf(airline.airline))
-                    airlinesResponse.statusCode = airline.statusCode
-                    airlinesResponse.message = airline.message
-                    mAirlinesLiveDate.value = airlinesResponse
+                    if (airlineResponse.airline != null) {
+                        val airlinesResponse = AirlinesListResponse(arrayListOf(airlineResponse.airline))
+                        airlinesResponse.statusCode = airlineResponse.statusCode
+                        airlinesResponse.message = airlineResponse.message
+                        mAirlinesLiveDate.value = airlinesResponse
+                    } else {
+                        val airlinesResponse = AirlinesListResponse(arrayListOf())
+                        airlinesResponse.statusCode = airlineResponse.statusCode
+                        airlinesResponse.message = airlineResponse.message
+                        mAirlinesLiveDate.value = airlinesResponse
+                    }
                 }
                 null
             } catch (ex: Exception) {
@@ -154,4 +153,13 @@ class AirlineListingViewModel : ViewModel() {
 
         jobList.clear()
     }
+}
+
+
+@Suppress("UNCHECKED_CAST")
+class AirlineListingViewModelFactory(private val airlinesRepo: AirlinesRepo) :
+    ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel?> create(modelClass: Class<T>) =
+        (AirlineListingViewModel(airlinesRepo) as T)
+
 }

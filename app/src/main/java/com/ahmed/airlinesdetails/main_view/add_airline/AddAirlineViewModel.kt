@@ -1,9 +1,6 @@
 package com.ahmed.airlinesdetails.main_view.add_airline
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.ahmed.airlinesdetails.model.entities.Airline
 import com.ahmed.airlinesdetails.model.entities.BaseResponse
 import com.ahmed.airlinesdetails.model.repository.AirlinesRepo
@@ -14,11 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class AddAirlineViewModel : ViewModel() {
-
-    private val airlinesRepo: AirlinesRepo by lazy {
-        AirlinesRepoImpl()
-    }
+class AddAirlineViewModel(private val airlinesRepo: AirlinesRepo) : ViewModel() {
 
     private val mAddAirlineLiveData = MutableLiveData<BaseResponse>()
     val addAirlineLiveData: LiveData<BaseResponse> = mAddAirlineLiveData
@@ -32,7 +25,6 @@ class AddAirlineViewModel : ViewModel() {
     fun addAirline(airline: Airline) {
         mLoadingLiveData.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            delay(5000)
             try {
                 val response = airlinesRepo.addAirline(airline)
                 withContext(Dispatchers.Main) {
@@ -51,6 +43,13 @@ class AddAirlineViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        val x = 10
     }
+}
+
+@Suppress("UNCHECKED_CAST")
+class AddAirlineViewModelFactory(private val airlinesRepo: AirlinesRepo) :
+    ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel?> create(modelClass: Class<T>) =
+        (AddAirlineViewModel(airlinesRepo) as T)
+
 }

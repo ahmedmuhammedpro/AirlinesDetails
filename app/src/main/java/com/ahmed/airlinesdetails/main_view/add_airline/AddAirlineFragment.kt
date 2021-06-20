@@ -12,6 +12,7 @@ import com.ahmed.airlinesdetails.R
 import com.ahmed.airlinesdetails.databinding.FragmentAddAirlineBinding
 import com.ahmed.airlinesdetails.model.entities.Airline
 import com.ahmed.airlinesdetails.model.entities.ResponseState
+import com.ahmed.airlinesdetails.model.repository.AirlinesRepoImpl
 import com.ahmed.airlinesdetails.utils.toIntOrFalse
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -37,8 +38,17 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
-        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_airline, container, false)
-        addAirlineViewModel = ViewModelProvider(requireActivity()).get(AddAirlineViewModel::class.java)
+        dataBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_add_airline,
+            container,
+            false
+        )
+        addAirlineViewModel = ViewModelProvider(
+            requireActivity(), AddAirlineViewModelFactory(
+                AirlinesRepoImpl.getInstance()
+            )
+        ).get(AddAirlineViewModel::class.java)
         listenForAddAirline()
 
         dataBinding.confirmViewContainer.setOnClickListener {
@@ -86,7 +96,7 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
         val name = dataBinding.nameEditText.text.toString()
         val slogan = dataBinding.sloganEditText.text.toString()
         val country = dataBinding.countryEditText.text.toString()
-        val headquarter = dataBinding.headquarterEditText.toString()
+        val headquarter = dataBinding.headquarterEditText.text.toString()
         val established = dataBinding.establishedEditText.text.toString()
 
         if (name.isEmpty()) {
@@ -108,7 +118,7 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
             showSnackBar("Please Type a Established year")
             return null
         } else {
-            return Airline(null, name, country, "", slogan, headquarter, "", established)
+            return Airline(null, name, country, "", slogan, headquarter, "www.vodafone.com.eg", established)
         }
 
     }

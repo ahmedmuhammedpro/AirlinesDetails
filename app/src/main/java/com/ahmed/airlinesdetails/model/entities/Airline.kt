@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 data class AirlinesListResponse(@SerializedName("items") val items: ArrayList<Airline>) : BaseResponse()
 
-data class AirlineResponse(@SerializedName("value") val airline: Airline) : BaseResponse()
+data class AirlineResponse(@SerializedName("value") val airline: Airline?) : BaseResponse()
 
 class Airline(
         val id: String?, val name: String, val country: String, val logo: String,
