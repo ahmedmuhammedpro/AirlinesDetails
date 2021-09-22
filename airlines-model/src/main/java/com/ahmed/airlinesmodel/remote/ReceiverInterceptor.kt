@@ -1,4 +1,4 @@
-package com.ahmed.airlinesdetails.model.repository.api
+package com.ahmed.airlinesmodel.remote
 
 import okhttp3.Interceptor
 import okhttp3.Response

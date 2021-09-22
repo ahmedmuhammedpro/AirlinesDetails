@@ -1,6 +1,6 @@
-package com.ahmed.airlinesdetails.model.repository.api
+package com.ahmed.airlinesmodel.remote
 
-import com.ahmed.airlinesdetails.BuildConfig
+import androidx.multidex.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -13,10 +13,10 @@ object AirlinesApi {
 
     fun getAirlineRestApi(version: Int = 1): AirlinesRestApi {
         val retrofit = Retrofit.Builder()
-                .baseUrl("$BASE_URL$version/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(createOKHttp())
-                .build()
+            .baseUrl("$BASE_URL$version/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(createOKHttp())
+            .build()
 
         return retrofit.create(AirlinesRestApi::class.java)
     }

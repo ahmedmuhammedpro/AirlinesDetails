@@ -1,20 +1,17 @@
 package com.ahmed.airlinesdetails.main_view.add_airline
 
 import androidx.lifecycle.*
-import com.ahmed.airlinesdetails.model.entities.Airline
-import com.ahmed.airlinesdetails.model.entities.BaseResponse
-import com.ahmed.airlinesdetails.model.repository.AirlinesRepo
-import com.ahmed.airlinesdetails.model.repository.AirlinesRepoImpl
+import com.ahmed.airlinesmodel.AddingAirlineRepo
+import com.ahmed.airlinesmodel.entities.Airline
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class AddAirlineViewModel(private val airlinesRepo: AirlinesRepo) : ViewModel() {
+class AddAirlineViewModel(private val addingAirlineRepo: AddingAirlineRepo) : ViewModel() {
 
-    private val mAddAirlineLiveData = MutableLiveData<BaseResponse>()
-    val addAirlineLiveData: LiveData<BaseResponse> = mAddAirlineLiveData
+    private val mAddAirlineLiveData = MutableLiveData<ArrayList<Airline>?>()
+    val addAirlineLiveData: LiveData<ArrayList<Airline>?> = mAddAirlineLiveData
 
     private val mLoadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = mLoadingLiveData
@@ -25,31 +22,26 @@ class AddAirlineViewModel(private val airlinesRepo: AirlinesRepo) : ViewModel() 
     fun addAirline(airline: Airline) {
         mLoadingLiveData.value = true
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = airlinesRepo.addAirline(airline)
-                withContext(Dispatchers.Main) {
-                    mAddAirlineLiveData.value = response
-                }
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                mFailingLiveData.value = true
-            }
-
+            val result = addingAirlineRepo.addAirline(airline)
             withContext(Dispatchers.Main) {
+                try {
+                    mAddAirlineLiveData.value = result.getOrThrow()
+                } catch (ex: Throwable) {
+                    Timber.e(ex)
+                    mFailingLiveData.value = true
+                }
+
                 mLoadingLiveData.value = false
             }
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-    }
 }
 
 @Suppress("UNCHECKED_CAST")
-class AddAirlineViewModelFactory(private val airlinesRepo: AirlinesRepo) :
+class AddAirlineViewModelFactory(private val addingAirlineRepo: AddingAirlineRepo) :
     ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>) =
-        (AddAirlineViewModel(airlinesRepo) as T)
+        (AddAirlineViewModel(addingAirlineRepo) as T)
 
 }
