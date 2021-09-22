@@ -105,7 +105,7 @@ class SearchFragment : Fragment() {
         const val TERM_PARAM = "term_param"
 
         @JvmStatic
-        fun newInstance(id: String? = null, term: String? = null) = 
+        fun newInstance(id: String? = null, term: String? = null) =
             SearchFragment().apply {
                 arguments = Bundle().apply {
                     putString(ID_PARAM, id)

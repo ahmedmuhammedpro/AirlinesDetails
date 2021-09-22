@@ -10,8 +10,8 @@ import timber.log.Timber
 
 class AddAirlineViewModel(private val addingAirlineRepo: AddingAirlineRepo) : ViewModel() {
 
-    private val mAddAirlineLiveData = MutableLiveData<ArrayList<Airline>?>()
-    val addAirlineLiveData: LiveData<ArrayList<Airline>?> = mAddAirlineLiveData
+    private val mAddAirlineLiveData = MutableLiveData<Boolean>()
+    val addAirlineLiveData: LiveData<Boolean> = mAddAirlineLiveData
 
     private val mLoadingLiveData = MutableLiveData<Boolean>()
     val loadingLiveData: LiveData<Boolean> = mLoadingLiveData
@@ -25,7 +25,10 @@ class AddAirlineViewModel(private val addingAirlineRepo: AddingAirlineRepo) : Vi
             val result = addingAirlineRepo.addAirline(airline)
             withContext(Dispatchers.Main) {
                 try {
-                    mAddAirlineLiveData.value = result.getOrThrow()
+                    result.getOrThrow()
+                    mAddAirlineLiveData.value = true
+                    // set to false to reset observation
+                    mAddAirlineLiveData.value = false
                 } catch (ex: Throwable) {
                     Timber.e(ex)
                     mFailingLiveData.value = true

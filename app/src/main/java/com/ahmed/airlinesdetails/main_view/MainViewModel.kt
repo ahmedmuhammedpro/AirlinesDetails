@@ -10,7 +10,14 @@ class MainViewModel : ViewModel() {
     private val mNavDestination = MutableLiveData<FragmentDestination>()
     val navDestination: LiveData<FragmentDestination> = mNavDestination
 
+    private val mShouldRefreshAirlines = MutableLiveData<Boolean>()
+    val shouldRefreshAirlines: LiveData<Boolean> = mShouldRefreshAirlines
+
     fun setNewDestination(destination: FragmentDestination) {
         mNavDestination.value = destination
+    }
+
+    fun refreshAirlines() {
+        mShouldRefreshAirlines.value = true
     }
 }
