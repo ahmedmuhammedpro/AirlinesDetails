@@ -49,7 +49,7 @@ class AirlineListingViewModel(private val airlinesRepo: AirlinesRepository) : Vi
         jobList.add(job)
     }
 
-    override fun onCleared() { 
+    override fun onCleared() {
         super.onCleared()
         jobList.forEach {
             if (it.isActive) {
