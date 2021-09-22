@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AirlinesDetails">
         <activity android:name=".splash_view.SplashActivity"
+            android:exported="true"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

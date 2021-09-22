@@ -1,18 +1,18 @@
-package com.ahmed.airlinesdetails.main_view.details
+package com.ahmed.airlinesdetails.main_view.airline_details
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ahmed.airlinesdetails.R
 import com.ahmed.airlinesdetails.databinding.FragmentAirlineDetailsBinding
+import com.ahmed.airlinesdetails.main_view.MainActivity
 import com.ahmed.airlinesmodel.entities.Airline
 
 class AirlineDetailsFragment : Fragment() {
@@ -25,18 +25,19 @@ class AirlineDetailsFragment : Fragment() {
         airline = arguments?.getParcelable(AIRLINE_EXTRA)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
-        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_airline_details, container, false)
+        dataBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_airline_details, container, false)
         dataBinding.lifecycleOwner = this
         airline?.let {
             dataBinding.airline = it
         }
 
         setHasOptionsMenu(true)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
 
         dataBinding.visitButton.setOnClickListener {
             var url = airline?.website
@@ -50,6 +51,12 @@ class AirlineDetailsFragment : Fragment() {
         }
 
         return dataBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        (activity as MainActivity).supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
+        (activity as MainActivity).setupToolbarTitle(getString(R.string.airline_title))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

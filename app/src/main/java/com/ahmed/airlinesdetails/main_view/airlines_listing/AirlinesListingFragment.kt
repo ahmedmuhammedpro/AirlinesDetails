@@ -13,9 +13,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.ahmed.airlinesdetails.R
 import com.ahmed.airlinesdetails.databinding.FragmentAirlinesListingBinding
 import com.ahmed.airlinesdetails.main_view.FragmentDestination
+import com.ahmed.airlinesdetails.main_view.MainActivity
 import com.ahmed.airlinesdetails.main_view.MainViewModel
-import com.ahmed.airlinesdetails.main_view.details.AirlineDetailsFragment
-import com.ahmed.airlinesdetails.utils.toIntOrFalse
+import com.ahmed.airlinesdetails.main_view.airline_details.AirlineDetailsFragment
+import com.ahmed.airlinesdetails.main_view.airline_searching.SearchFragment
 import com.ahmed.airlinesmodel.AirlinesRepository
 import com.ahmed.airlinesmodel.AirlinesRepositoryImp
 import com.ahmed.airlinesmodel.entities.Airline
@@ -36,7 +37,7 @@ class AirlinesListFragment : Fragment(), OnItemClick {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
 
         if (mRootView == null) {
             databinding = DataBindingUtil.inflate(
@@ -59,10 +60,11 @@ class AirlinesListFragment : Fragment(), OnItemClick {
 
             setUpViewListener()
             mRootView = databinding.root
-            return databinding.root
         } else {
-            return mRootView!!
+            (activity as MainActivity).setupToolbarTitle(getString(R.string.airlines_title))
         }
+
+        return mRootView
     }
 
     private fun listenForAirlinesResponse() {
@@ -74,7 +76,7 @@ class AirlinesListFragment : Fragment(), OnItemClick {
                 airlinesAdapter.notifyDataSetChanged()
             } else {
                 databinding.mainContainer.visibility = View.GONE
-                databinding.noDataContainer.visibility = View.VISIBLE
+                databinding.errorViewContainer.visibility = View.VISIBLE
             }
         }
 
@@ -114,14 +116,13 @@ class AirlinesListFragment : Fragment(), OnItemClick {
             val searchTerm = databinding.searchEditText.text.toString()
             databinding.searchEditText.setText("")
             if (searchTerm.isNotEmpty()) {
-                databinding.mainContainer.visibility = View.GONE
                 searchByNameOrId(searchTerm)
                 hideKeyboard()
             }
         }
 
-        databinding.goBack.setOnClickListener {
-            databinding.noDataContainer.visibility = View.GONE
+        databinding.tryAgain.setOnClickListener {
+            databinding.errorViewContainer.visibility = View.GONE
             airlinesViewModel.getAirlines()
         }
 
@@ -134,14 +135,15 @@ class AirlinesListFragment : Fragment(), OnItemClick {
         Snackbar.make(databinding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
-    private fun searchByNameOrId(searchTerm: String?) {
-        if (!searchTerm.isNullOrEmpty()) {
-            if (searchTerm.toIntOrFalse()) {
-                airlinesViewModel.getAirlineById(searchTerm)
-            } else {
-                airlinesViewModel.getAirLineByName(searchTerm)
-            }
+    private fun searchByNameOrId(searchTerm: String) {
+        val bundle = Bundle()
+        val id = searchTerm.toIntOrNull()
+        if (id != null) {
+            bundle.putString(SearchFragment.ID_PARAM, "$id")
+        } else {
+            bundle.putString(SearchFragment.TERM_PARAM, searchTerm)
         }
+        mainViewModel.setNewDestination(FragmentDestination(R.id.searchingFragment, bundle))
     }
 
     private fun hideKeyboard() {
