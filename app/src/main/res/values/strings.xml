@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">AirlinesDetails</string>
-    <string name="countries_title">Countries</string>
+    <string name="airlines_title">Airlines</string>
+    <string name="airline_title">Airline</string>
     <string name="search_edit_text_hint">Search by airline name</string>
     <string name="content_desc_add_airline">add airline</string>
     <string name="content_desc_search">search</string>

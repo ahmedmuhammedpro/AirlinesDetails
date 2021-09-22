@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.ahmed.airlinesdetails.R
 import com.ahmed.airlinesdetails.databinding.FragmentAirlinesListingBinding
 import com.ahmed.airlinesdetails.main_view.FragmentDestination
+import com.ahmed.airlinesdetails.main_view.MainActivity
 import com.ahmed.airlinesdetails.main_view.MainViewModel
 import com.ahmed.airlinesdetails.main_view.airline_details.AirlineDetailsFragment
 import com.ahmed.airlinesdetails.main_view.airline_searching.SearchFragment
@@ -36,7 +37,7 @@ class AirlinesListFragment : Fragment(), OnItemClick {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
 
         if (mRootView == null) {
             databinding = DataBindingUtil.inflate(
@@ -59,10 +60,11 @@ class AirlinesListFragment : Fragment(), OnItemClick {
 
             setUpViewListener()
             mRootView = databinding.root
-            return databinding.root
         } else {
-            return mRootView!!
+            (activity as MainActivity).setupToolbarTitle(getString(R.string.airlines_title))
         }
+
+        return mRootView
     }
 
     private fun listenForAirlinesResponse() {
@@ -74,7 +76,7 @@ class AirlinesListFragment : Fragment(), OnItemClick {
                 airlinesAdapter.notifyDataSetChanged()
             } else {
                 databinding.mainContainer.visibility = View.GONE
-                databinding.noDataContainer.visibility = View.VISIBLE
+                databinding.errorViewContainer.visibility = View.VISIBLE
             }
         }
 
@@ -114,14 +116,13 @@ class AirlinesListFragment : Fragment(), OnItemClick {
             val searchTerm = databinding.searchEditText.text.toString()
             databinding.searchEditText.setText("")
             if (searchTerm.isNotEmpty()) {
-                databinding.mainContainer.visibility = View.GONE
                 searchByNameOrId(searchTerm)
                 hideKeyboard()
             }
         }
 
-        databinding.goBack.setOnClickListener {
-            databinding.noDataContainer.visibility = View.GONE
+        databinding.tryAgain.setOnClickListener {
+            databinding.errorViewContainer.visibility = View.GONE
             airlinesViewModel.getAirlines()
         }
 
