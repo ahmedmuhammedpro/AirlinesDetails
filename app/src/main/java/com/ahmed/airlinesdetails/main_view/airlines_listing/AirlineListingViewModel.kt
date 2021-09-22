@@ -107,7 +107,6 @@ class AirlineListingViewModel(private val airlinesRepo: AirlinesRepository) : Vi
     }
 }
 
-
 @Suppress("UNCHECKED_CAST")
 class AirlineListingViewModelFactory(private val airlinesRepo: AirlinesRepository) :
     ViewModelProvider.NewInstanceFactory() {
