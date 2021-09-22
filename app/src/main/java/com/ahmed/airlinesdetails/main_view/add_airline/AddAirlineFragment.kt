@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.ahmed.airlinesdetails.R
 import com.ahmed.airlinesdetails.databinding.FragmentAddAirlineBinding
+import com.ahmed.airlinesdetails.main_view.MainViewModel
 import com.ahmed.airlinesdetails.utils.toIntOrFalse
 import com.ahmed.airlinesmodel.AddingAirlineRepo
 import com.ahmed.airlinesmodel.AirlinesRepositoryImp
@@ -29,6 +30,7 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
     }
 
     private lateinit var dataBinding: FragmentAddAirlineBinding
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bottomSheetDialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
@@ -59,6 +61,9 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
         ).get(AddAirlineViewModel::class.java)
         listenForAddAirline()
 
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
+
         dataBinding.confirmViewContainer.setOnClickListener {
             val airline = createAirline()
             airline?.let {
@@ -75,12 +80,15 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
 
     private fun listenForAddAirline() {
         addAirlineViewModel.addAirlineLiveData.observe(viewLifecycleOwner) {
-            showSnackBar("Airline is successfully added")
-            dataBinding.nameEditText.setText("")
-            dataBinding.sloganEditText.setText("")
-            dataBinding.countryEditText.setText("")
-            dataBinding.headquarterEditText.setText("")
-            dataBinding.establishedEditText.setText("")
+            if (it) {
+                dataBinding.nameEditText.setText("")
+                dataBinding.sloganEditText.setText("")
+                dataBinding.countryEditText.setText("")
+                dataBinding.headquarterEditText.setText("")
+                dataBinding.establishedEditText.setText("")
+                mainViewModel.refreshAirlines()
+                dismiss()
+            }
         }
 
         addAirlineViewModel.loadingLiveData.observe(viewLifecycleOwner) {
@@ -134,6 +142,6 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
     }
 
     private fun showSnackBar(message: String) {
-        Snackbar.make(dataBinding.root, message, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(requireActivity().findViewById(R.id.activity_main_container), message, Snackbar.LENGTH_LONG).show()
     }
 }
