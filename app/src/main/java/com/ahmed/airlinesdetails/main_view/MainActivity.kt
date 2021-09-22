@@ -1,6 +1,7 @@
 package com.ahmed.airlinesdetails.main_view
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -29,6 +30,10 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.navDestination.observe(this) {
             navController.navigate(it.destinationId, it.bundle)
         }
+    }
+
+    fun setupToolbarTitle(title: String) {
+        dataBinding.toolbar.findViewById<TextView>(R.id.toolbar_title).text = title
     }
 
 }

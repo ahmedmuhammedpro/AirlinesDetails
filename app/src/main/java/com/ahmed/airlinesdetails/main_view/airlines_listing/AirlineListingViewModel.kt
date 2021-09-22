@@ -49,52 +49,6 @@ class AirlineListingViewModel(private val airlinesRepo: AirlinesRepository) : Vi
         jobList.add(job)
     }
 
-    fun getAirLineByName(name: String) {
-        mLoadingLiveData.value = true
-        val job = viewModelScope.launch(Dispatchers.IO) {
-
-            val result = airlinesRepo.getAirlineByName(name)
-            withContext(Dispatchers.Main) {
-                try {
-                    val airline = result.getOrThrow()
-                    if (airline != null) {
-                        mAirlinesLiveDate.value = arrayListOf(airline)
-                    } else {
-                        mAirlinesLiveDate.value = arrayListOf()
-                    }
-                } catch (ex: Throwable) {
-                    Timber.e(ex)
-                    mFailingLiveData.value = true
-                }
-                mLoadingLiveData.value = false
-            }
-        }
-
-        jobList.add(job)
-    }
-
-    fun getAirlineById(id: String) {
-        val job = viewModelScope.launch(Dispatchers.IO) {
-            val result = airlinesRepo.getAirLineById(id)
-            withContext(Dispatchers.Main) {
-                try {
-                    val airline = result.getOrThrow()
-                    if (airline != null) {
-                        mAirlinesLiveDate.value = arrayListOf(airline)
-                    } else {
-                        mAirlinesLiveDate.value = arrayListOf()
-                    }
-                } catch (ex: Throwable) {
-                    Timber.e(ex)
-                    mFailingLiveData.value = true
-                }
-                mLoadingLiveData.value = false
-            }
-        }
-
-        jobList.add(job)
-    }
-
     override fun onCleared() {
         super.onCleared()
         jobList.forEach {

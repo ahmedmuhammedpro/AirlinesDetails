@@ -17,6 +17,6 @@
         android:padding="12dp"
         android:textColor="#333333"
         android:textSize="24sp"
-        android:text="@string/countries_title" />
+        android:text="@string/airlines_title" />
 
 </androidx.appcompat.widget.Toolbar>
