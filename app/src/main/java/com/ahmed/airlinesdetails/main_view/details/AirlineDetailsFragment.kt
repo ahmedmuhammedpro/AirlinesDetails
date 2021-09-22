@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ahmed.airlinesdetails.R
 import com.ahmed.airlinesdetails.databinding.FragmentAirlineDetailsBinding
-import com.ahmed.airlinesdetails.model.entities.Airline
+import com.ahmed.airlinesmodel.entities.Airline
 
 class AirlineDetailsFragment : Fragment() {
 

@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmed.airlinesdetails.R
-import com.ahmed.airlinesdetails.model.entities.Airline
+import com.ahmed.airlinesmodel.entities.Airline
 
 class AirlinesAdapter(val items: ArrayList<Airline>, private val onItemClick: OnItemClick)
     : RecyclerView.Adapter<AirlinesAdapter.AirlineViewHolder>() {

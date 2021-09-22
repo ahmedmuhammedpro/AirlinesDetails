@@ -10,10 +10,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.ahmed.airlinesdetails.R
 import com.ahmed.airlinesdetails.databinding.FragmentAddAirlineBinding
-import com.ahmed.airlinesdetails.model.entities.Airline
-import com.ahmed.airlinesdetails.model.entities.ResponseState
-import com.ahmed.airlinesdetails.model.repository.AirlinesRepoImpl
 import com.ahmed.airlinesdetails.utils.toIntOrFalse
+import com.ahmed.airlinesmodel.AddingAirlineRepo
+import com.ahmed.airlinesmodel.AirlinesRepositoryImp
+import com.ahmed.airlinesmodel.entities.Airline
+import com.ahmed.airlinesmodel.local.AirlineDatabase
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -22,6 +23,11 @@ import com.google.android.material.snackbar.Snackbar
 class AddAirlineFragment : BottomSheetDialogFragment() {
 
     private lateinit var addAirlineViewModel: AddAirlineViewModel
+
+    private val addingAirlineRepo: AddingAirlineRepo by lazy {
+        AirlinesRepositoryImp(AirlineDatabase.getDatabase(requireContext().applicationContext).airlineDao)
+    }
+
     private lateinit var dataBinding: FragmentAddAirlineBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -35,8 +41,10 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
         return bottomSheetDialog
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
         dataBinding = DataBindingUtil.inflate(
             inflater,
@@ -44,10 +52,10 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
             container,
             false
         )
+
         addAirlineViewModel = ViewModelProvider(
-            requireActivity(), AddAirlineViewModelFactory(
-                AirlinesRepoImpl.getInstance()
-            )
+            requireActivity(),
+            AddAirlineViewModelFactory(addingAirlineRepo)
         ).get(AddAirlineViewModel::class.java)
         listenForAddAirline()
 
@@ -67,18 +75,12 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
 
     private fun listenForAddAirline() {
         addAirlineViewModel.addAirlineLiveData.observe(viewLifecycleOwner) {
-            when (it.getResponseState()) {
-                ResponseState.SUCCESS -> {
-                    showSnackBar("Airline is successfully added")
-                    dataBinding.nameEditText.setText("")
-                    dataBinding.sloganEditText.setText("")
-                    dataBinding.countryEditText.setText("")
-                    dataBinding.headquarterEditText.setText("")
-                    dataBinding.establishedEditText.setText("")
-                }
-                ResponseState.CLIENT_ERROR, ResponseState.UNKNOWN_ERROR,
-                ResponseState.SERVER_ERROR, ResponseState.REDIRECT -> showSnackBar(getString(R.string.general_error))
-            }
+            showSnackBar("Airline is successfully added")
+            dataBinding.nameEditText.setText("")
+            dataBinding.sloganEditText.setText("")
+            dataBinding.countryEditText.setText("")
+            dataBinding.headquarterEditText.setText("")
+            dataBinding.establishedEditText.setText("")
         }
 
         addAirlineViewModel.loadingLiveData.observe(viewLifecycleOwner) {
@@ -118,7 +120,15 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
             showSnackBar("Please Type a Established year")
             return null
         } else {
-            return Airline(null, name, country, "", slogan, headquarter, "www.vodafone.com.eg", established)
+            return Airline(
+                name,
+                country,
+                "",
+                slogan,
+                headquarter,
+                "www.vodafone.com.eg",
+                established
+            )
         }
 
     }
