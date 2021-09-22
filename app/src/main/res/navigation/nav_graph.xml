@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_airlinesListFragment_to_airlineDetailsFragment"
             app:destination="@id/airlineDetailsFragment" />
+        <action
+            android:id="@+id/action_airlinesListFragment_to_searchingFragment"
+            app:destination="@id/searchingFragment" />
     </fragment>
 
     <dialog
@@ -28,10 +31,20 @@
 
     <fragment
         android:id="@+id/airlineDetailsFragment"
-        android:name="com.ahmed.airlinesdetails.main_view.details.AirlineDetailsFragment"
+        android:name="com.ahmed.airlinesdetails.main_view.airline_details.AirlineDetailsFragment"
         tools:layout="@layout/fragment_airline_details">
         <action
             android:id="@+id/action_airlineDetailsFragment_to_airlinesListFragment"
+            app:destination="@id/airlinesListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchingFragment"
+        android:name="com.ahmed.airlinesdetails.main_view.airline_searching.SearchFragment"
+        tools:layout="@layout/fragment_search">
+
+        <action
+            android:id="@+id/action_searchingFragment_to_airlinesListFragment"
             app:destination="@id/airlinesListFragment" />
     </fragment>
 

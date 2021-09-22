@@ -14,8 +14,8 @@ import com.ahmed.airlinesdetails.R
 import com.ahmed.airlinesdetails.databinding.FragmentAirlinesListingBinding
 import com.ahmed.airlinesdetails.main_view.FragmentDestination
 import com.ahmed.airlinesdetails.main_view.MainViewModel
-import com.ahmed.airlinesdetails.main_view.details.AirlineDetailsFragment
-import com.ahmed.airlinesdetails.utils.toIntOrFalse
+import com.ahmed.airlinesdetails.main_view.airline_details.AirlineDetailsFragment
+import com.ahmed.airlinesdetails.main_view.airline_searching.SearchFragment
 import com.ahmed.airlinesmodel.AirlinesRepository
 import com.ahmed.airlinesmodel.AirlinesRepositoryImp
 import com.ahmed.airlinesmodel.entities.Airline
@@ -134,14 +134,15 @@ class AirlinesListFragment : Fragment(), OnItemClick {
         Snackbar.make(databinding.root, message, Snackbar.LENGTH_LONG).show()
     }
 
-    private fun searchByNameOrId(searchTerm: String?) {
-        if (!searchTerm.isNullOrEmpty()) {
-            if (searchTerm.toIntOrFalse()) {
-                airlinesViewModel.getAirlineById(searchTerm)
-            } else {
-                airlinesViewModel.getAirLineByName(searchTerm)
-            }
+    private fun searchByNameOrId(searchTerm: String) {
+        val bundle = Bundle()
+        val id = searchTerm.toIntOrNull()
+        if (id != null) {
+            bundle.putString(SearchFragment.ID_PARAM, "$id")
+        } else {
+            bundle.putString(SearchFragment.TERM_PARAM, searchTerm)
         }
+        mainViewModel.setNewDestination(FragmentDestination(R.id.searchingFragment, bundle))
     }
 
     private fun hideKeyboard() {

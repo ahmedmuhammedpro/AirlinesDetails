@@ -1,4 +1,4 @@
-package com.ahmed.airlinesdetails.main_view.details
+package com.ahmed.airlinesdetails.main_view.airline_details
 
 import android.content.Intent
 import android.net.Uri
