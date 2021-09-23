@@ -23,4 +23,6 @@
     <string name="cancel_button">Cancel</string>
     <string name="headquarters_title">Headquarters</string>
     <string name="visit_button">Visit</string>
+    <string name="network_lost">Network Lost</string>
+    <string name="network_retrieve">Network Retrieved</string>
 </resources>
