@@ -81,11 +81,22 @@ class AirlinesListFragment : Fragment(), OnItemClick {
         }
 
         airlinesViewModel.loadingLiveData.observe(viewLifecycleOwner) {
-            databinding.loadingViewContainer.visibility = if (it) View.VISIBLE else View.GONE
+            if (it) {
+                databinding.loadingViewContainer.visibility = View.VISIBLE
+                databinding.mainContainer.visibility = View.GONE
+                databinding.errorViewContainer.visibility = View.GONE
+            } else {
+                databinding.loadingViewContainer.visibility = View.GONE
+            }
         }
 
         airlinesViewModel.failingLiveData.observe(viewLifecycleOwner) {
             showSnackBar(getString(R.string.general_error))
+        }
+
+        mainViewModel.shouldRefreshAirlines.observe(viewLifecycleOwner) {
+            showSnackBar("Airline is successfully added")
+            airlinesViewModel.getAirlines()
         }
     }
 
