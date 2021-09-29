@@ -1,17 +1,18 @@
 package com.ahmed.airlinesdetails.main_view.airline_searching
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModelProvider
 import com.ahmed.airlinesmodel.SearchingAirlineRepo
 import com.ahmed.airlinesmodel.entities.Airline
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class SearchingViewModel(private val searchingAirlineRepo: SearchingAirlineRepo) : ViewModel() {
-
-    private val jobList = ArrayList<Job>()
 
     private val mAirlineLiveDate = MutableLiveData<Airline?>()
     val airlineLiveDate: LiveData<Airline?> = mAirlineLiveDate
@@ -24,7 +25,7 @@ class SearchingViewModel(private val searchingAirlineRepo: SearchingAirlineRepo)
 
     fun getAirLineByName(name: String) {
         mLoadingLiveData.value = true
-        val job = viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = searchingAirlineRepo.getAirlineByName(name)
             withContext(Dispatchers.Main) {
                 try {
@@ -36,12 +37,10 @@ class SearchingViewModel(private val searchingAirlineRepo: SearchingAirlineRepo)
                 mLoadingLiveData.value = false
             }
         }
-
-        jobList.add(job)
     }
 
     fun getAirlineById(id: String) {
-        val job = viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = searchingAirlineRepo.getAirLineById(id)
             withContext(Dispatchers.Main) {
                 try {
@@ -53,19 +52,6 @@ class SearchingViewModel(private val searchingAirlineRepo: SearchingAirlineRepo)
                 mLoadingLiveData.value = false
             }
         }
-
-        jobList.add(job)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        jobList.forEach {
-            if (it.isActive) {
-                it.cancel()
-            }
-        }
-
-        jobList.clear()
     }
 
 }

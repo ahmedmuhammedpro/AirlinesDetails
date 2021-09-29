@@ -13,15 +13,21 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ahmed.airlinesdetails.R
 import com.ahmed.airlinesdetails.databinding.FragmentSearchBinding
+import com.ahmed.airlinesdetails.main_view.FragmentDestination
+import com.ahmed.airlinesdetails.main_view.MainViewModel
+import com.ahmed.airlinesdetails.main_view.airline_details.AirlineDetailsFragment
 import com.ahmed.airlinesmodel.AirlinesRepositoryImp
 import com.ahmed.airlinesmodel.SearchingAirlineRepo
+import com.ahmed.airlinesmodel.entities.Airline
 import com.ahmed.airlinesmodel.local.AirlineDatabase
 
 class SearchFragment : Fragment() {
 
     private var id: String? = null
     private var term: String? = null
+    private var mAirline: Airline? = null
     private lateinit var databinding: FragmentSearchBinding
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var searchingViewModel: SearchingViewModel
     private val searchingAirlineRepo : SearchingAirlineRepo by lazy {
         AirlinesRepositoryImp(AirlineDatabase.getDatabase(requireContext().applicationContext).airlineDao)
@@ -40,7 +46,8 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        searchingViewModel = ViewModelProvider(requireActivity(), SearchingViewModelFactory(searchingAirlineRepo)).get(SearchingViewModel::class.java)
+        searchingViewModel = ViewModelProvider(this, SearchingViewModelFactory(searchingAirlineRepo)).get(SearchingViewModel::class.java)
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         databinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
         setHasOptionsMenu(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -50,6 +57,12 @@ class SearchFragment : Fragment() {
         setupClickListener()
         id?.let { searchingViewModel.getAirlineById(it) }
         term?.let { searchingViewModel.getAirLineByName(it) }
+
+        databinding.airlineView.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putParcelable(AirlineDetailsFragment.AIRLINE_EXTRA, mAirline)
+            mainViewModel.setNewDestination(FragmentDestination(R.id.airlineDetailsFragment, bundle))
+        }
 
         return databinding.root
     }
@@ -67,6 +80,7 @@ class SearchFragment : Fragment() {
 
         searchingViewModel.airlineLiveDate.observe(viewLifecycleOwner) { airline ->
             if (airline != null) {
+                mAirline = airline
                 databinding.airlineView.visibility = View.VISIBLE
                 databinding.airlineView.findViewById<TextView>(R.id.airline_text_view).text = airline.name
             } else {
