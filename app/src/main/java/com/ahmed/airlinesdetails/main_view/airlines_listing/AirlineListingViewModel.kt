@@ -1,17 +1,18 @@
 package com.ahmed.airlinesdetails.main_view.airlines_listing
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModelProvider
 import com.ahmed.airlinesmodel.AirlinesRepository
 import com.ahmed.airlinesmodel.entities.Airline
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class AirlineListingViewModel(private val airlinesRepo: AirlinesRepository) : ViewModel() {
-
-    private val jobList = ArrayList<Job>()
 
     private val mAirlinesLiveDate = MutableLiveData<ArrayList<Airline>?>()
     val airlinesLiveDate: LiveData<ArrayList<Airline>?> = mAirlinesLiveDate
@@ -24,7 +25,7 @@ class AirlineListingViewModel(private val airlinesRepo: AirlinesRepository) : Vi
 
     fun getAirlines() {
         mLoadingLiveData.value = true
-        val job = viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             var airlines: ArrayList<Airline>? = null
 
             try {
@@ -45,20 +46,8 @@ class AirlineListingViewModel(private val airlinesRepo: AirlinesRepository) : Vi
                 mLoadingLiveData.value = false
             }
         }
-
-        jobList.add(job)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        jobList.forEach {
-            if (it.isActive) {
-                it.cancel()
-            }
-        }
-
-        jobList.clear()
-    }
 }
 
 @Suppress("UNCHECKED_CAST")

@@ -1,6 +1,10 @@
 package com.ahmed.airlinesdetails.main_view.add_airline
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModelProvider
 import com.ahmed.airlinesmodel.AddingAirlineRepo
 import com.ahmed.airlinesmodel.entities.Airline
 import kotlinx.coroutines.Dispatchers
@@ -27,8 +31,6 @@ class AddAirlineViewModel(private val addingAirlineRepo: AddingAirlineRepo) : Vi
                 try {
                     result.getOrThrow()
                     mAddAirlineLiveData.value = true
-                    // set to false to reset observation
-                    mAddAirlineLiveData.value = false
                 } catch (ex: Throwable) {
                     Timber.e(ex)
                     mFailingLiveData.value = true

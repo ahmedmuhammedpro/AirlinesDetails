@@ -55,14 +55,13 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
             false
         )
 
-        addAirlineViewModel = ViewModelProvider(
-            requireActivity(),
+        addAirlineViewModel = ViewModelProvider(this,
             AddAirlineViewModelFactory(addingAirlineRepo)
         ).get(AddAirlineViewModel::class.java)
+
         listenForAddAirline()
 
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-
 
         dataBinding.confirmViewContainer.setOnClickListener {
             val airline = createAirline()
@@ -81,11 +80,6 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
     private fun listenForAddAirline() {
         addAirlineViewModel.addAirlineLiveData.observe(viewLifecycleOwner) {
             if (it) {
-                dataBinding.nameEditText.setText("")
-                dataBinding.sloganEditText.setText("")
-                dataBinding.countryEditText.setText("")
-                dataBinding.headquarterEditText.setText("")
-                dataBinding.establishedEditText.setText("")
                 mainViewModel.refreshAirlines()
                 dismiss()
             }
@@ -142,6 +136,6 @@ class AddAirlineFragment : BottomSheetDialogFragment() {
     }
 
     private fun showSnackBar(message: String) {
-        Snackbar.make(requireActivity().findViewById(R.id.activity_main_container), message, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(dataBinding.root, message, Snackbar.LENGTH_LONG).show()
     }
 }
